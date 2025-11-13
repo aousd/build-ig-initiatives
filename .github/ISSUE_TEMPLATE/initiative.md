@@ -10,19 +10,6 @@ assignees: ''
 # Description
 *Describe the initiative and what benefits doing this would have.*
 
-# Parent Initiative
-
-- https://github.com/aousd/build-ig-initiatives/issues/<number>
-
-*If any - remove section if not*
-
-# Child Initiatives
-
-- https://github.com/aousd/build-ig-initiatives/issues/<number>
- 
-*Sub-initiatives, if any - remove section if not*
-
-
 # Champion
 
 - Full Name (Company) - @githubhandle
