@@ -12,14 +12,14 @@ Status: First draft
 ## End state
 
 - AOUSD-managed CI, continuous testing, and continuous delivery
-- AOUSD-controlled repositories, runners, services, and credentials
+- AOUSD-controlled repositories, runners, services
 - `PixarAnimationStudios/OpenUSD` triggers with reliable status reporting
 - Public unit, GPU, WebAssembly, and performance testing
-- `usd-core` PyPI packages and downloadable binary archives
+- PyPI packages and downloadable binary archives
 - Public interfaces to trigger and report Pixar validation that must remain
-  private
+  private (I.E interal performance tests should report go/no-go)
 - Implementation and maintenance by AOUSD Build Interest Group contributors
-- Optional contracted support through the Linux Foundation
+  - Optional contracted support through the Linux Foundation
 
 ## Current decisions and constraints
 
@@ -28,9 +28,13 @@ Status: First draft
   - Provisional branch: `aousd-ci`
 - Starting point: public `PixarAnimationStudios/OpenUSD` GitHub Actions
 - Workflow system: GitHub Actions unless a compelling alternative emerges
-- Initial invocation: manual, with a Git-parseable reference reachable from
-  `AOUSD/OpenUSD` or `PixarAnimationStudios/OpenUSD`
-- Initial platforms: Linux x86-64, macOS, and Windows x86-64
+- Initial invocation: manually triggered github action
+  - Takes an optional parameter to build from AOUSD/PixarAnimationStudios, tag,
+    branch or SHA
+  - Optionally build Pypi packages
+  - Build, test and publish workflows
+- Initial platforms: Linux x86-64, macOS, WebAssembly, and Windows x86-64
+  - No wasm for Pypi  
 - No platform priority
   - Sequence based on contributor familiarity and availability, plus
     infrastructure readiness
@@ -39,7 +43,8 @@ Status: First draft
   release
 - PyPI: wheels only; no source distributions
 - Downloadable binaries: ZIP archives
-- Pixar processes retained until replacements are approved:
+- Pixar processes are happening in parallel until we are ready to switch to AOUSD CI:
+  - PR validation
   - Internal releases
   - Internal performance testing
   - Proprietary-asset validation
@@ -57,7 +62,7 @@ Status: First draft
   - Artifacts and caches
   - `usd-core`, downloadable archive, and full-release processes
   - Dependencies on private Pixar systems
-- Confirmation of default GPU and WebAssembly jobs
+- Confirmation of default GPU jobs
 
 ### 2. Select runner and hosting approaches
 
@@ -94,18 +99,39 @@ Status: First draft
 
 ### 5. Implement manual builds and tests for initial platforms
 
-- Linux x86-64, macOS, and Windows x86-64
+- Linux x86-64, macOS, and Windows x86-64, WASM
 - Shared behavior plus documented platform differences
-- Diagnostic logs, test output, and artifacts
+- Diagnostic logs, alerting, and artifacts
 
-### 6. Replicate GPU and WebAssembly CI jobs
+### 5.5 Implement testing for initial platforms
+- Additional testing phase and reporting
+  
+
+### 7. Reproduce current `usd-core` wheel builds
+
+- Initial platforms and corresponding OpenUSD Python versions
+- Validation through AOUSD testing CI
+
+### 7.5 Establish AOUSD-controlled PyPI publication
+
+- Confirm AOUSD PyPI organization
+- Arrange `usd-core` ownership or publication access
+- Credential custody, rotation, approval, auditing, and recovery
+- Manual publication of validated wheel artifacts
+
+### 7.6 Publish an AOUSD-produced `usd-core` release
+
+- Manual build, test, approval, and publication
+- Initial platforms
+- Pixar coordination on ownership, version, timing, and recovery
+
+
+### 8.0 Add GPU tests CI jobs
 
 - Conditional on confirmation as default public CI
-- GPU, WebAssembly, and WebAssembly 64-bit jobs
 - Manual AOUSD invocation
-- No implied WebAssembly release support
 
-### 7. Reconcile release tests and flaky-test handling
+### 9. Reconcile release tests and flaky-test handling
 
 - Default tests aligned with release requirements
 - Other tests optional by default
@@ -116,23 +142,7 @@ Status: First draft
   - Test or environment repair
 - Continued improvement during later goals
 
-### 8. Reproduce current `usd-core` wheel builds
 
-- Initial platforms and corresponding OpenUSD Python versions
-- Validation through AOUSD testing CI
-
-### 9. Establish AOUSD-controlled PyPI publication
-
-- Confirm AOUSD PyPI organization
-- Arrange `usd-core` ownership or publication access
-- Credential custody, rotation, approval, auditing, and recovery
-- Manual publication of validated wheel artifacts
-
-### 10. Publish an AOUSD-produced `usd-core` release
-
-- Manual build, test, approval, and publication
-- Initial platforms
-- Pixar coordination on ownership, version, timing, and recovery
 
 ### 11. Produce manually downloadable binary archives
 
@@ -202,6 +212,7 @@ Status: First draft
 - Public triggers and safe result reporting for Pixar's private validation and
   performance suites
 - Additional release automation and platforms based on demand and capacity
+- Handle CI for other AOUSD hosted repositories (Adobe's USD file format plugins when rehomed)
 
 ## Deferred decisions
 
